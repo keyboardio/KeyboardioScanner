@@ -9,8 +9,10 @@ typedef struct {
   byte key;
 } key_t;
 
-// this is the main method you want, to read a key from any configured controller
-key_t waitForKey();
+// these are the two main methods -- one to check if a key has been
+// pressed or released, and one to read it.
+bool isKeyReady();
+key_t readKey();
 
 
 #define IS31IO7326_I2C_ADDR_BASE 0x58
@@ -39,7 +41,7 @@ class Is7326 {
 public:
   Is7326(byte setAd01);
   ~Is7326();
-  void start(byte interrupt, byte pin);
+  void start(byte interrupt);
   byte setConfig(byte config);
   byte setConfigOnce(byte config);
   int readConfig();
@@ -139,12 +141,12 @@ void keyDown3() {
 void (*keyDowns[4])() = {keyDown0, keyDown1, keyDown2, keyDown3};
 
 // attaches the proper interrupt controller to the given PIN
-void Is7326::start(byte interruptPin, byte pin) {
+void Is7326::start(byte interruptPin) {
   attachInterrupt(interruptPin, keyDowns[ad01], FALLING);
 }
 
 // returns the raw key code from the controller, or -1 on failure.
-int readKey(byte ad01) {
+int readRawKey(byte ad01) {
   byte addr = IS31IO7326_I2C_ADDR_BASE | ad01;
   Wire.beginTransmission(addr);
   Wire.write(0x10);
@@ -162,17 +164,27 @@ int readKey(byte ad01) {
   return d;
 }
 
-// blocks and waits for a key to be pressed, and returns details about it.
-key_t waitForKey() {
+// returns true of a key is ready to be read
+bool isKeyReady() {
+  return keyReady != 0;
+}
+
+// gives information on the key that was just pressed or released.
+// you should call iskeyReady() first
+key_t readKey() {
+  key_t key;
+
+  if (keyReady == 0) {
+    // this shouldn't happen
+    return key;
+  }
+
   int k = -1;
   byte bit = 0;
   byte ad01 = 0;
-  while (k < 0) {
-    while (keyReady == 0) {
-      delay(1);
-    }
 
-    // read one key at a time
+  while (k < 0) {
+    // read one key
     if (keyReady & KEY_DOWN_0) {
       ad01 = 0;
       bit = KEY_DOWN_0;
@@ -187,18 +199,18 @@ key_t waitForKey() {
       bit = KEY_DOWN_3;
     }
 
-    k = readKey(ad01);
+    k = readRawKey(ad01);
     // if k < 0, we try again
   }
 
-  // no extra keys, clear the interrupt flag
+  // no extra keys, clear the interrupt flag for this address
   if ((k & 0x80) == 0) {
     noInterrupts();
     keyReady &= ~bit;
     keyWasRead |= bit;
     interrupts();
   }
-  key_t key;
+
   key.ad01 = ad01;
   key.down = (k & (1 << 6)) != 0;
   key.key = k & 0x1f;
