@@ -1,0 +1,43 @@
+#######################################
+# Syntax Coloring Map For Is7326
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+key_t   KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+start           KEYWORD2
+setConfig       KEYWORD2
+setConfigOnce   KEYWORD2
+readConfig      KEYWORD2
+keyDown         KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+Is7326    KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+AUTO_CLEAR_INT_DISABLED             LITERAL1
+AUTO_CLEAR_INT_5MS                  LITERAL1
+AUTO_CLEAR_INT_10MS                 LITERAL1
+INPUT_PORT_FILTER_ENABLE            LITERAL1
+INPUT_PORT_FILTER_DISABLE           LITERAL1
+KEY_SCAN_DEBOUNCE_TIME_DOUBLE_6_8MS LITERAL1
+KEY_SCAN_DEBOUNCE_TIME_NORMAL_3_4MS LITERAL1
+LONGPRESS_DETECT_ENABLE             LITERAL1
+LONGPRESS_DETECT_DISABLE            LITERAL1
+LONGPRESS_DELAY_20MS                LITERAL1
+LONGPRESS_DELAY_40MS                LITERAL1
+LONGPRESS_DELAY_1S                  LITERAL1
+LONGPRESS_DELAY_2S                  LITERAL1
