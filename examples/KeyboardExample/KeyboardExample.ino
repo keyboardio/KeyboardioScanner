@@ -14,15 +14,10 @@ void loop() {
                       KEY_SCAN_DEBOUNCE_TIME_NORMAL_3_4MS);
 
   // check if a key is ready, and if so, then read it.
-  if (isKeyReady()) {
-    key_t k = readKey();
-
-    Serial.print("Configuration: ");
-    Serial.print(controller.readConfig(), BIN);
-    Serial.print("\n\n");
-
+  key_t k = controller.readKey();
+  if (k.key>0) {
     Serial.print("Controller ");
-    Serial.print(k.ad01, BIN);
+    Serial.print(k.ad01, DEC);
     if (k.down) {
       Serial.print("  pressed key ");
     } else {
