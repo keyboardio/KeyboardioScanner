@@ -44,11 +44,16 @@ public:
   byte setConfigOnce(byte config);
   int readConfig();
   void keyDown();
+  bool isKeyReady();
+  key_t readKey();
+
 
 private:
   bool configured = false;
   byte addr;
   byte ad01;
+  bool keyReady = false;
+
 };
 
 

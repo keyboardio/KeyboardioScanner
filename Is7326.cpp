@@ -10,6 +10,9 @@ Is7326::~Is7326() {}
 Is7326::Is7326(byte setAd01) {
   ad01 = setAd01;
   addr = IS31IO7326_I2C_ADDR_BASE | ad01;
+  // keyReady will be true after a read when there's another key event
+  // already waiting for us
+  keyReady = false;
 }
 
 // returns 0 on success, otherwise the Wire.endTransmission code
@@ -47,53 +50,6 @@ int Is7326::readConfig() {
   return Wire.read();
 }
 
-// we have to hardcode the interrupt handlers as plain functions --
-// C++ methods are not supported.
-// Luckily, there can only be four I2C addresses for the controller.
-// Use a 4-bit mask to tell us which controllers need to be read.
-volatile byte keyReady = 0;
-// Use a 4-bit mask to tell the interrupts that the key was read to
-// help with debouncing.
-volatile byte keyWasRead = 0xf;
-
-#define KEY_DOWN_0 1
-#define KEY_DOWN_1 2
-#define KEY_DOWN_2 4
-#define KEY_DOWN_3 8
-
-
-void keyDown0() {
-  if (keyWasRead & KEY_DOWN_0) {
-    keyReady |= KEY_DOWN_0;
-    keyWasRead &= ~KEY_DOWN_0;
-  }
-}
-void keyDown1() {
-  if (keyWasRead & KEY_DOWN_1) {
-    keyReady |= KEY_DOWN_1;
-    keyWasRead &= ~KEY_DOWN_1;
-  }
-}
-void keyDown2() {
-  if (keyWasRead & KEY_DOWN_2) {
-    keyReady |= KEY_DOWN_2;
-    keyWasRead &= ~KEY_DOWN_2;
-  }
-}
-void keyDown3() {
-  if (keyWasRead & KEY_DOWN_3) {
-    keyReady |= KEY_DOWN_3;
-    keyWasRead &= ~KEY_DOWN_3;
-  }
-}
-
-void (*keyDowns[4])() = {keyDown0, keyDown1, keyDown2, keyDown3};
-
-// attaches the proper interrupt controller to the given PIN
-void Is7326::start(byte interruptPin) {
-  attachInterrupt(digitalPinToInterrupt(interruptPin), keyDowns[ad01], FALLING);
-}
-
 // returns the raw key code from the controller, or -1 on failure.
 int readRawKey(byte ad01) {
   byte addr = IS31IO7326_I2C_ADDR_BASE | ad01;
@@ -109,24 +65,18 @@ int readRawKey(byte ad01) {
     return -1;
   }
 
-  int d = Wire.read();
-  return d;
+  return Wire.read();
 }
 
 // returns true of a key is ready to be read
-bool isKeyReady() {
-  return keyReady != 0;
+bool Is7326::isKeyReady() {
+  return keyReady;
 }
 
 // gives information on the key that was just pressed or released.
 // you should call iskeyReady() first
-key_t readKey() {
+key_t Is7326::readKey() {
   key_t key;
-
-  if (keyReady == 0) {
-    // XXX: this returns uninitialized data
-    return key;
-  }
 
   int k = -1;
   byte bit = 0;
@@ -134,33 +84,15 @@ key_t readKey() {
 
   while (k < 0) {
     // read one key
-    if (keyReady & KEY_DOWN_0) {
-      ad01 = 0;
-      bit = KEY_DOWN_0;
-    } else if (keyReady & KEY_DOWN_1) {
-      ad01 = 1;
-      bit = KEY_DOWN_1;
-    } else if (keyReady & KEY_DOWN_2) {
-      ad01 = 2;
-      bit = KEY_DOWN_2;
-    } else if (keyReady & KEY_DOWN_3) {
-      ad01 = 3;
-      bit = KEY_DOWN_3;
-    } else {
-      // XXX: this returns uninitialized data
-      return key;
-    }
-
     k = readRawKey(ad01);
     // if k < 0, we try again
   }
 
-  // no extra keys, clear the interrupt flag for this address
+  // no extra keys, clear the keyReady flag for this address
   if ((k & 0x80) == 0) {
-    noInterrupts();
-    keyReady &= ~bit;
-    keyWasRead |= bit;
-    interrupts();
+    keyReady = false;
+  } else {
+    keyReady = true;
   }
 
   key.ad01 = ad01;
