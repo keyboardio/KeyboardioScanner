@@ -13,6 +13,7 @@ typedef struct {
 // pressed or released, and one to read it.
 bool isKeyReady();
 key_t readKey();
+int readRawKey(byte addr);
 
 // config options
 #define AUTO_CLEAR_INT_DISABLED 0
