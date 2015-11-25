@@ -6,7 +6,6 @@ KeyboardioScanner controller(0);
 void setup() {
   Serial.begin(9600);
   Wire.begin();
-  controller.start(2);   // interrupt number -- see https://www.arduino.cc/en/Reference/AttachInterrupt
 }
 
 void loop() {
