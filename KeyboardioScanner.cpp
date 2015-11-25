@@ -76,10 +76,7 @@ bool KeyboardioScanner::isKeyReady() {
 // you should call iskeyReady() first
 key_t KeyboardioScanner::readKey() {
   key_t key;
-
   int k = -1;
-  byte bit = 0;
-  byte ad01 = 0;
 
   // read one key
   k = readRawKey(addr);
