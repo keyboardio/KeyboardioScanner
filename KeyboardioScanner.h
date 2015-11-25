@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 typedef struct {
-  byte ad01;
+  int ad01;
   boolean down; // TODO: Arduino booleans are big. we can make this struct a lot tighter.
   byte key;
 } key_t;
@@ -48,8 +48,8 @@ public:
 
 private:
   bool configured = false;
-  byte addr;
-  byte ad01;
+  int addr;
+  int ad01;
   bool keyReady = false;
 
 };
