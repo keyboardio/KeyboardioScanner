@@ -40,7 +40,7 @@ public:
   byte setConfig(byte config);
   byte setConfigOnce(byte config);
   int readConfig();
-  bool isKeyReady();
+  bool moreKeysWaiting();
   key_t readKey();
 
 

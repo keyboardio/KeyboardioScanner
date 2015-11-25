@@ -68,12 +68,11 @@ int readRawKey(int addr) {
 }
 
 // returns true of a key is ready to be read
-bool KeyboardioScanner::isKeyReady() {
+bool KeyboardioScanner::moreKeysWaiting() {
   return keyReady;
 }
 
 // gives information on the key that was just pressed or released.
-// you should call iskeyReady() first
 key_t KeyboardioScanner::readKey() {
   key_t key;
   int k = -1;

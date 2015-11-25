@@ -15,7 +15,7 @@ key_t   KEYWORD1
 setConfig       KEYWORD2
 setConfigOnce   KEYWORD2
 readConfig      KEYWORD2
-isKeyReady      KEYWORD2
+moreKeysWaiting KEYWORD2
 readKey         KEYWORD2
 
 #######################################
