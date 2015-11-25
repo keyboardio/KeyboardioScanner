@@ -12,11 +12,11 @@ key_t   KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-start           KEYWORD2
 setConfig       KEYWORD2
 setConfigOnce   KEYWORD2
 readConfig      KEYWORD2
-keyDown         KEYWORD2
+isKeyReady      KEYWORD2
+readKey         KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)

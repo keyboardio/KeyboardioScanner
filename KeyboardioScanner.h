@@ -37,11 +37,9 @@ class KeyboardioScanner {
 public:
   KeyboardioScanner(byte setAd01);
   ~KeyboardioScanner();
-  void start(byte interrupt);
   byte setConfig(byte config);
   byte setConfigOnce(byte config);
   int readConfig();
-  void keyDown();
   bool isKeyReady();
   key_t readKey();
 
