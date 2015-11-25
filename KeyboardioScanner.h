@@ -11,7 +11,7 @@ typedef struct {
 
 // these are the two main methods -- one to check if a key has been
 // pressed or released, and one to read it.
-int readRawKey(byte addr);
+int readRawKey(int addr);
 
 // config options
 #define AUTO_CLEAR_INT_DISABLED 0

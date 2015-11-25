@@ -51,8 +51,7 @@ int KeyboardioScanner::readConfig() {
 }
 
 // returns the raw key code from the controller, or -1 on failure.
-int readRawKey(byte ad01) {
-  byte addr = IS31IO7326_I2C_ADDR_BASE | ad01;
+int readRawKey(int addr) {
   Wire.beginTransmission(addr);
   Wire.write(0x10);
   byte error = Wire.endTransmission();
@@ -82,11 +81,9 @@ key_t KeyboardioScanner::readKey() {
   byte bit = 0;
   byte ad01 = 0;
 
-  while (k < 0) {
-    // read one key
-    k = readRawKey(ad01);
-    // if k < 0, we try again
-  }
+  // read one key
+  k = readRawKey(addr);
+
 
   // no extra keys, clear the keyReady flag for this address
   if ((k & 0x80) == 0) {
