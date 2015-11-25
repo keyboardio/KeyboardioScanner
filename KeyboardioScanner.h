@@ -5,14 +5,12 @@
 
 typedef struct {
   byte ad01;
-  boolean down;
+  boolean down; // TODO: Arduino booleans are big. we can make this struct a lot tighter.
   byte key;
 } key_t;
 
 // these are the two main methods -- one to check if a key has been
 // pressed or released, and one to read it.
-bool isKeyReady();
-key_t readKey();
 int readRawKey(byte addr);
 
 // config options
