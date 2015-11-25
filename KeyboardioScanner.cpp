@@ -1,13 +1,13 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include "Is7326.h"
+#include "KeyboardioScanner.h"
 
 #define IS31IO7326_I2C_ADDR_BASE 0x58
 
 
-Is7326::~Is7326() {}
+KeyboardioScanner::~KeyboardioScanner() {}
 
-Is7326::Is7326(byte setAd01) {
+KeyboardioScanner::KeyboardioScanner(byte setAd01) {
   ad01 = setAd01;
   addr = IS31IO7326_I2C_ADDR_BASE | ad01;
   // keyReady will be true after a read when there's another key event
@@ -17,7 +17,7 @@ Is7326::Is7326(byte setAd01) {
 
 // returns 0 on success, otherwise the Wire.endTransmission code
 // https://www.arduino.cc/en/Reference/WireEndTransmission
-byte Is7326::setConfigOnce(byte config) {
+byte KeyboardioScanner::setConfigOnce(byte config) {
   if (!configured) {
     setConfig(config);
   } else {
@@ -27,7 +27,7 @@ byte Is7326::setConfigOnce(byte config) {
 
 // returns the Wire.endTransmission code (0 = success)
 // https://www.arduino.cc/en/Reference/WireEndTransmission
-byte Is7326::setConfig(byte config) {
+byte KeyboardioScanner::setConfig(byte config) {
   Wire.beginTransmission(addr);
   Wire.write(0x8);
   Wire.write(config);
@@ -35,7 +35,7 @@ byte Is7326::setConfig(byte config) {
 }
 
 // returns -1 on error, otherwise returns the 8 register configuration
-int Is7326::readConfig() {
+int KeyboardioScanner::readConfig() {
   Wire.beginTransmission(addr);
   Wire.write(0x8);
   byte error = Wire.endTransmission();
@@ -69,13 +69,13 @@ int readRawKey(byte ad01) {
 }
 
 // returns true of a key is ready to be read
-bool Is7326::isKeyReady() {
+bool KeyboardioScanner::isKeyReady() {
   return keyReady;
 }
 
 // gives information on the key that was just pressed or released.
 // you should call iskeyReady() first
-key_t Is7326::readKey() {
+key_t KeyboardioScanner::readKey() {
   key_t key;
 
   int k = -1;

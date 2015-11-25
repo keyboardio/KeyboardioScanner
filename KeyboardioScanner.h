@@ -35,10 +35,10 @@ int readRawKey(byte addr);
 #define LONGPRESS_DELAY_2S 3
 
 // used to configure interrupts, configuration for a particular controller
-class Is7326 {
+class KeyboardioScanner {
 public:
-  Is7326(byte setAd01);
-  ~Is7326();
+  KeyboardioScanner(byte setAd01);
+  ~KeyboardioScanner();
   void start(byte interrupt);
   byte setConfig(byte config);
   byte setConfigOnce(byte config);

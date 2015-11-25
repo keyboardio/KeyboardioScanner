@@ -1,7 +1,7 @@
 #include <Wire.h>
-#include <Is7326.h>
+#include <KeyboardioScanner.h>
 
-Is7326 controller(0);
+KeyboardioScanner controller(0);
 
 void setup() {
   Serial.begin(9600);

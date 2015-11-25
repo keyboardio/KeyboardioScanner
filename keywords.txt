@@ -1,5 +1,5 @@
 #######################################
-# Syntax Coloring Map For Is7326
+# Syntax Coloring Map For KeyboardioScanner
 #######################################
 
 #######################################
@@ -22,7 +22,7 @@ keyDown         KEYWORD2
 # Instances (KEYWORD2)
 #######################################
 
-Is7326    KEYWORD2
+KeyboardioScanner    KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
