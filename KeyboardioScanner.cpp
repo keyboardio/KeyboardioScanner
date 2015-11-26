@@ -52,13 +52,6 @@ int KeyboardioScanner::readConfig() {
 
 // returns the raw key code from the controller, or -1 on failure.
 int readRawKey(int addr) {
-  Wire.beginTransmission(addr);
-  Wire.write(0x10);
-  byte error = Wire.endTransmission();
-  if (error != 0) {
-    return -1;
-  }
-
   byte bytes = Wire.requestFrom(addr, 1, true);
   if (bytes != 1) {
     return -1;
