@@ -31,6 +31,7 @@ byte KeyboardioScanner::setConfig(byte config) {
   Wire.beginTransmission(addr);
   Wire.write(0x8);
   Wire.write(config);
+  configured = true;
   return Wire.endTransmission();
 }
 
