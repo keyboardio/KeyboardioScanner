@@ -29,7 +29,7 @@ byte KeyboardioScanner::setConfigOnce(byte config) {
 // https://www.arduino.cc/en/Reference/WireEndTransmission
 byte KeyboardioScanner::setConfig(byte config) {
   Wire.beginTransmission(addr);
-  Wire.write(0x8);
+  Wire.write(TWI_CMD_CFG);
   Wire.write(config);
   configured = true;
   return Wire.endTransmission();
@@ -38,7 +38,7 @@ byte KeyboardioScanner::setConfig(byte config) {
 // returns -1 on error, otherwise returns the 8 register configuration
 int KeyboardioScanner::readConfig() {
   Wire.beginTransmission(addr);
-  Wire.write(0x8);
+  Wire.write(TWI_CMD_CFG);
   byte error = Wire.endTransmission();
   if (error != 0) {
     return -1;

@@ -3,6 +3,12 @@
 
 #include <Arduino.h>
 
+
+#define TWI_CMD_NONE 0x00
+#define TWI_CMD_ROWS 0x01
+#define TWI_CMD_COLS 0x02
+#define TWI_CMD_CFG  0x08
+
 typedef struct {
   int ad01;
   boolean down; // TODO: Arduino booleans are big. we can make this struct a lot tighter.
