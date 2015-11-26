@@ -13,23 +13,6 @@ typedef struct {
 int readRawKey(int addr);
 
 // config options
-#define AUTO_CLEAR_INT_DISABLED 0
-#define AUTO_CLEAR_INT_5MS 0x20
-#define AUTO_CLEAR_INT_10MS 0x40
-
-#define INPUT_PORT_FILTER_ENABLE 0x10
-#define INPUT_PORT_FILTER_DISABLE 0
-
-#define KEY_SCAN_DEBOUNCE_TIME_DOUBLE_6_8MS 0
-#define KEY_SCAN_DEBOUNCE_TIME_NORMAL_3_4MS 0x8
-
-#define LONGPRESS_DETECT_ENABLE 0x4
-#define LONGPRESS_DETECT_DISABLE 0
-
-#define LONGPRESS_DELAY_20MS 0
-#define LONGPRESS_DELAY_40MS 1
-#define LONGPRESS_DELAY_1S 2
-#define LONGPRESS_DELAY_2S 3
 
 // used to configure interrupts, configuration for a particular controller
 class KeyboardioScanner {
