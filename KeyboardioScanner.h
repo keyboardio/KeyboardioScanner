@@ -9,8 +9,7 @@ typedef struct {
   byte key;
 } key_t;
 
-// these are the two main methods -- one to check if a key has been
-// pressed or released, and one to read it.
+// this is the main method. It reads a key event from the IO Expander
 int readRawKey(int addr);
 
 // config options
