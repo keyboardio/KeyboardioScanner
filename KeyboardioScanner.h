@@ -1,12 +1,10 @@
-#ifndef __IS31IO7326_H__
-#define __IS31IO7326_H__
+#ifndef __KEYBOARDIO_SCANNER_H__
+#define __KEYBOARDIO_SCANNER_H__
 
 #include <Arduino.h>
 
 
 #define TWI_CMD_NONE 0x00
-#define TWI_CMD_ROWS 0x01
-#define TWI_CMD_COLS 0x02
 #define TWI_CMD_CFG  0x08
 
 typedef struct {

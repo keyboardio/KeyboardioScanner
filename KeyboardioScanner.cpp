@@ -35,6 +35,12 @@ byte KeyboardioScanner::setConfig(byte config) {
   return Wire.endTransmission();
 }
 
+
+
+
+
+
+
 // returns -1 on error, otherwise returns the 8 register configuration
 int KeyboardioScanner::readConfig() {
   Wire.beginTransmission(addr);
