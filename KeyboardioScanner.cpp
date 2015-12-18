@@ -58,15 +58,6 @@ int KeyboardioScanner::readConfig() {
 }
 
 // returns the raw key code from the controller, or -1 on failure.
-int readRawKey(int addr) {
-    byte bytes = Wire.requestFrom(addr, 1, true);
-    if (bytes != 1) {
-        return -1;
-    }
-
-    return Wire.read();
-}
-
 // returns true of a key is ready to be read
 bool KeyboardioScanner::moreKeysWaiting() {
     return keyReady;
@@ -78,8 +69,9 @@ key_t KeyboardioScanner::readKey() {
     int k = -1;
 
     // read one key
-    k = readRawKey(addr);
-
+    if( Wire.requestFrom(addr, 1, true) ==1) {
+        k = Wire.read();
+    }
 
     // no extra keys, clear the keyReady flag for this address
     if ((k & 0x80) == 0) {

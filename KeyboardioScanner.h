@@ -13,9 +13,6 @@ typedef struct {
     byte key;
 } key_t;
 
-// this is the main method. It reads a key event from the IO Expander
-int readRawKey(int addr);
-
 // config options
 
 // used to configure interrupts, configuration for a particular controller
