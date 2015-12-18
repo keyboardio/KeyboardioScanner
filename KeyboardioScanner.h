@@ -8,9 +8,9 @@
 #define TWI_CMD_CFG  0x08
 
 typedef struct {
-  int ad01;
-  boolean down; // TODO: Arduino booleans are big. we can make this struct a lot tighter.
-  byte key;
+    int ad01;
+    boolean down; // TODO: Arduino booleans are big. we can make this struct a lot tighter.
+    byte key;
 } key_t;
 
 // this is the main method. It reads a key event from the IO Expander
@@ -20,21 +20,21 @@ int readRawKey(int addr);
 
 // used to configure interrupts, configuration for a particular controller
 class KeyboardioScanner {
-public:
-  KeyboardioScanner(byte setAd01);
-  ~KeyboardioScanner();
-  byte setConfig(byte config);
-  byte setConfigOnce(byte config);
-  int readConfig();
-  bool moreKeysWaiting();
-  key_t readKey();
+  public:
+    KeyboardioScanner(byte setAd01);
+    ~KeyboardioScanner();
+    byte setConfig(byte config);
+    byte setConfigOnce(byte config);
+    int readConfig();
+    bool moreKeysWaiting();
+    key_t readKey();
 
 
-private:
-  bool configured = false;
-  int addr;
-  int ad01;
-  bool keyReady = false;
+  private:
+    bool configured = false;
+    int addr;
+    int ad01;
+    bool keyReady = false;
 
 };
 
