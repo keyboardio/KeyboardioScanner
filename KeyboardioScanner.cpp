@@ -85,3 +85,38 @@ key_t KeyboardioScanner::readKey() {
     key.key = k & 0x1f;
     return key;
 }
+
+
+
+void KeyboardioScanner::sendLEDData() {
+    sendLEDBank(nextLEDBank++);
+    if (nextLEDBank == 4) {
+        nextLEDBank = 0;
+    }
+}
+
+
+
+void KeyboardioScanner::sendLEDBank(byte bank) {
+    Wire.beginTransmission(addr);
+    for (int i=0; i<32; i++) {
+        if(i==0) {
+            byte data = ledData.bytes[bank][i];
+            if(bank ==0) {
+                data = data ^ TWI_CMD_MASK_LED_BANK_0;
+            } else if (bank == 1) {
+                data = data ^ TWI_CMD_MASK_LED_BANK_1;
+            } else if (bank == 2) {
+                data = data ^ TWI_CMD_MASK_LED_BANK_2;
+            } else if (bank == 3) {
+                data = data ^ TWI_CMD_MASK_LED_BANK_3;
+            }
+            Wire.write(data);
+        } else {
+            Wire.write(ledData.bytes[bank][i]);
+        }
+    }
+    Wire.endTransmission();
+}
+
+
