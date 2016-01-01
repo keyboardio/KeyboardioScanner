@@ -4,35 +4,28 @@
 #include <Arduino.h>
 
 
-#define TWI_CMD_NONE 0x00
-#define TWI_CMD_LEDS 0x01
-#define TWI_CMD_CFG  0x08
-#define TWI_CMD_PREFIX_LED_BANK_0 0x20 // 0b00100000
-#define TWI_CMD_PREFIX_LED_BANK_1 0x40 // 0b01000000
-#define TWI_CMD_PREFIX_LED_BANK_2 0x60 // 0b01100000
-#define TWI_CMD_PREFIX_LED_BANK_3 0x80 // 0b10000000
-#define TWI_CMD_MASK_LED_BANK_0 0xC0   // 0b11000000 
-#define TWI_CMD_MASK_LED_BANK_1 0xA0   // 0b10100000
-#define TWI_CMD_MASK_LED_BANK_2 0x80   // 0b10000000
-#define TWI_CMD_MASK_LED_BANK_3 0x60   // 0b01100000
-
-#define LED_BANKS 4
-
 typedef union {
     struct {
-        uint8_t c;
-
         uint8_t b;
         uint8_t g;
         uint8_t r;
     };
-    uint8_t array[4];
-} cRGB;
+    uint8_t array[3];
+} RGB;
+
+
+#define TWI_CMD_NONE 0x00
+#define TWI_CMD_CFG 0x01
+#define TWI_CMD_LED_BASE 0x80
+
+#define LED_BANKS 8
 
 #define LED_COUNT 32
+#define LED_BYTES_PER_BANK sizeof(RGB)  * LED_COUNT/LED_BANKS
+
 typedef union LEDData_t {
-    cRGB leds[LED_COUNT];
-    byte bytes[LED_BANKS][sizeof(cRGB)*LED_COUNT/LED_BANKS];
+    RGB leds[LED_COUNT];
+    byte bytes[LED_BANKS][LED_BYTES_PER_BANK];
 };
 
 

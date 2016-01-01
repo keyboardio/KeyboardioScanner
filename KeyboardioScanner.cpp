@@ -90,7 +90,7 @@ key_t KeyboardioScanner::readKey() {
 
 void KeyboardioScanner::sendLEDData() {
     sendLEDBank(nextLEDBank++);
-    if (nextLEDBank == 4) {
+    if (nextLEDBank == LED_BANKS) {
         nextLEDBank = 0;
     }
 }
@@ -99,22 +99,9 @@ void KeyboardioScanner::sendLEDData() {
 
 void KeyboardioScanner::sendLEDBank(byte bank) {
     Wire.beginTransmission(addr);
-    for (int i=0; i<32; i++) {
-        if(i==0) {
-            byte data = ledData.bytes[bank][i];
-            if(bank ==0) {
-                data = data ^ TWI_CMD_MASK_LED_BANK_0;
-            } else if (bank == 1) {
-                data = data ^ TWI_CMD_MASK_LED_BANK_1;
-            } else if (bank == 2) {
-                data = data ^ TWI_CMD_MASK_LED_BANK_2;
-            } else if (bank == 3) {
-                data = data ^ TWI_CMD_MASK_LED_BANK_3;
-            }
-            Wire.write(data);
-        } else {
+    Wire.write(TWI_CMD_LED_BASE+bank);
+    for (int i=0; i<LED_BYTES_PER_BANK; i++) {
             Wire.write(ledData.bytes[bank][i]);
-        }
     }
     Wire.endTransmission();
 }
