@@ -11,7 +11,7 @@ typedef union {
         uint8_t r;
     };
     uint8_t array[3];
-} RGB;
+} cRGB;
 
 
 #define TWI_CMD_NONE 0x00
@@ -21,10 +21,10 @@ typedef union {
 #define LED_BANKS 8
 
 #define LED_COUNT 32
-#define LED_BYTES_PER_BANK sizeof(RGB)  * LED_COUNT/LED_BANKS
+#define LED_BYTES_PER_BANK sizeof(cRGB)  * LED_COUNT/LED_BANKS
 
 typedef union LEDData_t {
-    RGB leds[LED_COUNT];
+    cRGB leds[LED_COUNT];
     byte bytes[LED_BANKS][LED_BYTES_PER_BANK];
 };
 
