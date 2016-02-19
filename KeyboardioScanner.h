@@ -1,5 +1,4 @@
-#ifndef __KEYBOARDIO_SCANNER_H__
-#define __KEYBOARDIO_SCANNER_H__
+#pragma once
 
 #include <Arduino.h>
 
@@ -60,5 +59,3 @@ class KeyboardioScanner {
     void sendLEDBank(byte bank);
 };
 
-
-#endif
