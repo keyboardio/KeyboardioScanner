@@ -16,7 +16,7 @@ VERBOSE := #-verbose
 SKETCH := examples/KeyboardExample/KeyboardExample.ino
 SKETCH_BASENAME = `basename "${SKETCH}"`
 
-all: compile size
+smoke: compile size
 
 astyle:
 		find . -type f -name \*.cpp |xargs -n 1 astyle --style=google
