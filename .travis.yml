@@ -5,7 +5,7 @@ before_install:
 - tar xf arduino-1.6.7-linux64.tar.xz
 - popd
 script:
-- make smoke ARDUINO_PATH=../arduino-1.6.7
+- make smoke ARDUINO_PATH=../arduino-1.6.7 ARDUINO_LOCAL_LIB_PATH=..
 notifications:
   irc:
     channels:
