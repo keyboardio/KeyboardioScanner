@@ -101,7 +101,7 @@ void KeyboardioScanner::sendLEDBank(byte bank) {
     Wire.beginTransmission(addr);
     Wire.write(TWI_CMD_LED_BASE+bank);
     for (int i=0; i<LED_BYTES_PER_BANK; i++) {
-            Wire.write(ledData.bytes[bank][i]);
+        Wire.write(ledData.bytes[bank][i]);
     }
     Wire.endTransmission();
 }
