@@ -9,9 +9,6 @@ void setup() {
 }
 
 void loop() {
-  // has to be done in the main loop, after everything is initialized
-  controller.setConfigOnce(INPUT_PORT_FILTER_ENABLE |
-                      KEY_SCAN_DEBOUNCE_TIME_NORMAL_3_4MS);
 
   // check if a key is ready, and if so, then read it.
   key_t k = controller.readKey();
