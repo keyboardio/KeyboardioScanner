@@ -44,6 +44,7 @@ class KeyboardioScanner {
     int readConfig();
     bool moreKeysWaiting();
     void sendLEDData();
+    uint8_t readKeyRaw();
     key_t readKey();
     LEDData_t ledData;
 

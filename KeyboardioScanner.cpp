@@ -63,6 +63,14 @@ bool KeyboardioScanner::moreKeysWaiting() {
     return keyReady;
 }
 
+uint8_t KeyboardioScanner::readKeyRaw() {
+    uint8_t k = 0;
+    if( Wire.requestFrom(addr, 1, true) ==1) {
+        k = Wire.read();
+    }
+    return k;
+}
+
 // gives information on the key that was just pressed or released.
 key_t KeyboardioScanner::readKey() {
     key_t key;
