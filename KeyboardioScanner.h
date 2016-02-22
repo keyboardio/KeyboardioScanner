@@ -25,12 +25,18 @@ typedef union LEDData_t {
 };
 
 
-
-typedef struct {
-    int ad01;
-    boolean down; // TODO: Arduino booleans are big. we can make this struct a lot tighter.
-    byte key;
+// Same datastructure as on the other side
+typedef union {
+    struct {
+        uint8_t row:2,
+                col:3,
+                keyState:1,
+                keyEventsWaiting:1,
+                eventReported:1;
+    };
+    uint8_t val;
 } key_t;
+
 
 // config options
 
@@ -47,6 +53,7 @@ class KeyboardioScanner {
     uint8_t readKeyRaw();
     key_t readKey();
     LEDData_t ledData;
+    uint8_t controllerAddress();
 
   private:
     bool configured = false;

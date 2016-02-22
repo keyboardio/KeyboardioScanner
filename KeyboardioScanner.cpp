@@ -25,6 +25,11 @@ byte KeyboardioScanner::setConfigOnce(byte config) {
     }
 }
 
+// Returns the relative controller addresss. The expected range is 0-3
+uint8_t KeyboardioScanner::controllerAddress() {
+    return ad01;
+}
+
 // returns the Wire.endTransmission code (0 = success)
 // https://www.arduino.cc/en/Reference/WireEndTransmission
 byte KeyboardioScanner::setConfig(byte config) {
@@ -74,23 +79,18 @@ uint8_t KeyboardioScanner::readKeyRaw() {
 // gives information on the key that was just pressed or released.
 key_t KeyboardioScanner::readKey() {
     key_t key;
-    int k = -1;
 
     // read one key
     if( Wire.requestFrom(addr, 1, true) ==1) {
-        k = Wire.read();
+        key.val = Wire.read();
     }
 
     // no extra keys, clear the keyReady flag for this address
-    if ((k & 0x80) == 0) {
+    if (key.keyEventsWaiting == 0 ) {
         keyReady = false;
     } else {
         keyReady = true;
     }
-
-    key.ad01 = ad01;
-    key.down = (k & (1 << 6)) != 0;
-    key.key = k & 0x1f;
     return key;
 }
 
