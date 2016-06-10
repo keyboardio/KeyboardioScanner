@@ -73,8 +73,19 @@ key_t KeyboardioScanner::readKey() {
     key_t key;
 
     // read one key
-    if( Wire.requestFrom(addr, 1, true) ==1) {
-        key.val = Wire.read();
+    uint8_t bytes_returned = Wire.requestFrom(addr,4,false);
+
+    if( bytes_returned) {
+        Serial.print(bytes_returned);
+        Serial.println(" bytes returned.");
+        uint8_t data = 0;
+        while(Wire.available()) {
+            data= Wire.read();
+            Serial.print(data, BIN);
+            Serial.print(" ");
+        }
+
+        key.val = data;
     }
 
     // no extra keys, clear the keyReady flag for this address

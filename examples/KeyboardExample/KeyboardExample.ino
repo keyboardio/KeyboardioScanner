@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <KeyboardioScanner.h>
 
-KeyboardioScanner controller(0);
+KeyboardioScanner controller(3);
 
 void setup() {
     Serial.begin(9600);
@@ -26,5 +26,6 @@ void loop() {
         Serial.print("\n");
     }
 
-    delay(1);
+    delay(1000);
+    Serial.print(".");
 }
