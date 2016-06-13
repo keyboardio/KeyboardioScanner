@@ -1,31 +1,25 @@
 #include <Wire.h>
 #include <KeyboardioScanner.h>
 
-KeyboardioScanner controller(3);
+KeyboardioScanner controller(0);
 
 void setup() {
-    Serial.begin(9600);
-    Wire.begin();
+  pinMode(13, OUTPUT);
+  digitalWrite(13, HIGH);
+  pinMode(7, OUTPUT);
+  digitalWrite(7, LOW);
+
+  Serial.begin(9600);
+  Wire.begin();
+  TWBR = 4;
 }
 
 void loop() {
+  keydata_t keys;
 
-    // check if a key is ready, and if so, then read it.
-    key_t k = controller.readKey();
-    if (k.eventReported != 0) {
-        Serial.print("Controller ");
-        Serial.print(controller.controllerAddress(), DEC);
-        if (k.keyState) {
-            Serial.print("  pressed key ");
-        } else {
-            Serial.print(" released key ");
-
-        }
-        Serial.print(k.row , BIN);
-        Serial.print(k.col , BIN);
-        Serial.print("\n");
-    }
-
-    delay(1000);
-    Serial.print(".");
+  // If there's any change to the keyboard state, print out the result
+  if (controller.readKeys()) {
+    Serial.print(controller.getKeyData().all, BIN);
+    Serial.println();
+  }
 }
