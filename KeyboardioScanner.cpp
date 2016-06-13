@@ -69,35 +69,27 @@ bool KeyboardioScanner::moreKeysWaiting() {
 }
 
 // gives information on the key that was just pressed or released.
-key_t KeyboardioScanner::readKey() {
-    key_t key;
+bool KeyboardioScanner::readKeys() {
+    // read one key state
+    Wire.requestFrom(addr,4,false);
+   
+    uint8_t event_detected = Wire.read();
+    if (event_detected) {
+        keyData.rows[0] = Wire.read();
+        keyData.rows[1] = Wire.read();
+        keyData.rows[2] = Wire.read();
+        keyData.rows[3] = Wire.read();
 
-    // read one key
-    uint8_t bytes_returned = Wire.requestFrom(addr,4,false);
-
-    if( bytes_returned) {
-        Serial.print(bytes_returned);
-        Serial.println(" bytes returned.");
-        uint8_t data = 0;
-        while(Wire.available()) {
-            data= Wire.read();
-            Serial.print(data, BIN);
-            Serial.print(" ");
+            Serial.println(keyData.all,BIN);
+         return true;
+        } else {
+            return false;
         }
-
-        key.val = data;
-    }
-
-    // no extra keys, clear the keyReady flag for this address
-    if (key.keyEventsWaiting == 0 ) {
-        keyReady = false;
-    } else {
-        keyReady = true;
-    }
-    return key;
 }
 
-
+keydata_t KeyboardioScanner::getKeyData() {
+    return keyData;
+}
 
 void KeyboardioScanner::sendLEDData() {
     sendLEDBank(nextLEDBank++);

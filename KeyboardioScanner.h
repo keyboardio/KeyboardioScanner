@@ -38,6 +38,11 @@ typedef union {
 } key_t;
 
 
+typedef union {
+    uint8_t rows[4];
+    uint32_t all;
+} keydata_t;
+
 // config options
 
 // used to configure interrupts, configuration for a particular controller
@@ -50,7 +55,8 @@ class KeyboardioScanner {
     int readConfig();
     bool moreKeysWaiting();
     void sendLEDData();
-    key_t readKey();
+    keydata_t getKeyData();
+    bool readKeys();
     LEDData_t ledData;
     uint8_t controllerAddress();
 
@@ -58,6 +64,7 @@ class KeyboardioScanner {
     bool configured = false;
     int addr;
     int ad01;
+    keydata_t keyData;
     bool keyReady = false;
     byte nextLEDBank = 0;
     void sendLEDBank(byte bank);
