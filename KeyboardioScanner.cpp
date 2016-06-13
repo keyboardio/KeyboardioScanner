@@ -71,7 +71,7 @@ bool KeyboardioScanner::moreKeysWaiting() {
 // gives information on the key that was just pressed or released.
 bool KeyboardioScanner::readKeys() {
     // read one key state
-    Wire.requestFrom(addr,4,false);
+    Wire.requestFrom(addr,5,true);
    
     uint8_t event_detected = Wire.read();
     if (event_detected) {
