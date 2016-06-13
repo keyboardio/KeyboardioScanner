@@ -79,8 +79,6 @@ bool KeyboardioScanner::readKeys() {
         keyData.rows[1] = Wire.read();
         keyData.rows[2] = Wire.read();
         keyData.rows[3] = Wire.read();
-
-            Serial.println(keyData.all,BIN);
          return true;
         } else {
             return false;
