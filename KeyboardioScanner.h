@@ -14,7 +14,7 @@ struct cRGB {
 #define TWI_CMD_CFG 0x01
 #define TWI_CMD_LED_BASE 0x80
 
-#define LED_BANKS 8
+#define LED_BANKS 4
 
 #define LED_COUNT 32
 #define LED_BYTES_PER_BANK sizeof(cRGB)  * LED_COUNT/LED_BANKS
