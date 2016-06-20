@@ -96,6 +96,11 @@ void KeyboardioScanner::sendLEDData() {
     }
 }
 
+void KeyboardioScanner::disableLEDs() {
+    Wire.beginTransmission(addr);
+    Wire.write(TWI_CMD_LED_DISABLE);
+    Wire.endTransmission();
+}
 
 
 void KeyboardioScanner::sendLEDBank(byte bank) {
