@@ -74,7 +74,7 @@ bool KeyboardioScanner::readKeys() {
     Wire.requestFrom(addr,5,true);
    
     uint8_t event_detected = Wire.read();
-    if (event_detected) {
+    if (event_detected == TWI_REPLY_KEYDATA) {
         keyData.rows[0] = Wire.read();
         keyData.rows[1] = Wire.read();
         keyData.rows[2] = Wire.read();
