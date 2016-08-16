@@ -13,6 +13,7 @@ struct cRGB {
 #define TWI_CMD_NONE 0x00
 #define TWI_CMD_CFG 0x01
 #define TWI_CMD_LED_DISABLE 0x02
+#define TWI_CMD_VERSION 0x03
 #define TWI_CMD_LED_BASE 0x80
 
 
@@ -58,6 +59,7 @@ class KeyboardioScanner {
     byte setConfig(byte config);
     byte setConfigOnce(byte config);
     int readConfig();
+    int readVersion();
     bool moreKeysWaiting();
     void sendLEDData();
     void disableLEDs();

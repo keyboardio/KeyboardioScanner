@@ -62,6 +62,23 @@ int KeyboardioScanner::readConfig() {
     return Wire.read();
 }
 
+// returns -1 on error, otherwise returns the scanner version integer
+int KeyboardioScanner::readVersion() {
+    byte version = 0;
+
+    Wire.beginTransmission(addr);
+    Wire.write(TWI_CMD_VERSION);
+    Wire.endTransmission();
+    delayMicroseconds(15); // We may be able to drop this in the future
+                           // but will need to verify with correctly
+                           // sized pull-ups on both the left and right
+                           // hands' i2c SDA and SCL lines
+    Wire.requestFrom(addr, 1, true);
+    version = Wire.read();
+    return version;
+}
+
+
 // returns the raw key code from the controller, or -1 on failure.
 // returns true of a key is ready to be read
 bool KeyboardioScanner::moreKeysWaiting() {
