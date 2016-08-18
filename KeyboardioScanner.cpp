@@ -48,34 +48,28 @@ byte KeyboardioScanner::setConfig(byte config) {
 
 // returns -1 on error, otherwise returns the 8 register configuration
 int KeyboardioScanner::readConfig() {
-    Wire.beginTransmission(addr);
-    Wire.write(TWI_CMD_CFG);
-    byte error = Wire.endTransmission();
-    if (error != 0) {
-        return -1;
-    }
-
-    byte bytes = Wire.requestFrom(addr, 1, true);
-    if (bytes != 1) {
-        return -1;
-    }
-    return Wire.read();
+    return readRegister(TWI_CMD_CFG);
 }
 
 // returns -1 on error, otherwise returns the scanner version integer
 int KeyboardioScanner::readVersion() {
-    byte version = 0;
+    return readRegister(TWI_CMD_VERSION);
+}
+
+int KeyboardioScanner::readRegister(int cmd) {
+
+    byte return_value = 0;
 
     Wire.beginTransmission(addr);
-    Wire.write(TWI_CMD_VERSION);
+    Wire.write(cmd);
     Wire.endTransmission();
     delayMicroseconds(15); // We may be able to drop this in the future
                            // but will need to verify with correctly
                            // sized pull-ups on both the left and right
                            // hands' i2c SDA and SCL lines
     Wire.requestFrom(addr, 1, true);
-    version = Wire.read();
-    return version;
+    return_value = Wire.read();
+    return return_value;
 }
 
 

@@ -76,5 +76,6 @@ class KeyboardioScanner {
     bool keyReady = false;
     byte nextLEDBank = 0;
     void sendLEDBank(byte bank);
+    int readRegister(int cmd);
 };
 
