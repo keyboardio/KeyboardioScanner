@@ -41,7 +41,26 @@ byte KeyboardioScanner::setConfig(byte config) {
 }
 
 
-
+// Sets the key debouncing delay. The delay value will
+// be multiplied by 20 and fed into _delay_us() on the 
+// controller.
+// 
+// This gives you a maximum of 5100ms between reads of a
+// given row's keys. We currently do three reads.
+// You should think of this as the _minimum_ debounce time.
+//
+// The delay doesn't take into account time spent reading from
+// I2C or updating LEDs. 
+//
+//
+// returns the Wire.endTransmission code (0 = success)
+// https://www.arduino.cc/en/Reference/WireEndTransmission
+byte KeyboardioScanner::setDebounceDelay(byte delay) {
+    Wire.beginTransmission(addr);
+    Wire.write(TWI_CMD_DEBOUNCE_DELAY);
+    Wire.write(delay);
+    return Wire.endTransmission();
+}
 
 
 
@@ -54,6 +73,11 @@ int KeyboardioScanner::readConfig() {
 // returns -1 on error, otherwise returns the scanner version integer
 int KeyboardioScanner::readVersion() {
     return readRegister(TWI_CMD_VERSION);
+}
+
+// returns -1 on error, otherwise returns the scanner version integer
+int KeyboardioScanner::readDebounceDelay() {
+    return readRegister(TWI_CMD_DEBOUNCE_DELAY);
 }
 
 int KeyboardioScanner::readRegister(int cmd) {
