@@ -148,3 +148,23 @@ void KeyboardioScanner::sendLEDBank(byte bank) {
 }
 
 
+
+void KeyboardioScanner::setAllLEDsTo( cRGB color) {
+    Wire.beginTransmission(addr);
+    Wire.write(TWI_CMD_LED_SET_ALL_TO);
+    Wire.write(color.r);
+    Wire.write(color.g);
+    Wire.write(color.b);
+    Wire.endTransmission();
+}
+void KeyboardioScanner::setOneLEDTo(byte led, cRGB color) {
+    Wire.beginTransmission(addr);
+    Wire.write(TWI_CMD_LED_SET_ONE_TO);
+    Wire.write(led);
+    Wire.write(color.r);
+    Wire.write(color.g);
+    Wire.write(color.b);
+    Wire.endTransmission();
+}
+
+

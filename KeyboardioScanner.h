@@ -16,6 +16,8 @@ struct cRGB {
 #define TWI_CMD_LED_DISABLE 0x02
 #define TWI_CMD_VERSION 0x03
 #define TWI_CMD_DEBOUNCE_DELAY 0x04 // sent in microseconds/20
+#define TWI_CMD_LED_SET_ALL_TO 0x05
+#define TWI_CMD_LED_SET_ONE_TO 0x06
 
 
 #define TWI_CMD_LED_BASE 0x80
@@ -66,6 +68,8 @@ class KeyboardioScanner {
     int readDebounceDelay();
     bool moreKeysWaiting();
     void sendLEDData();
+    void setOneLEDTo(byte led, cRGB color);
+    void setAllLEDsTo(cRGB color);
     void disableLEDs();
     keydata_t getKeyData();
     bool readKeys();
