@@ -46,11 +46,17 @@ class KeyboardioScanner {
     KeyboardioScanner(byte setAd01);
     ~KeyboardioScanner();
     byte setConfig(byte config);
-    byte setConfigOnce(byte config);
-    byte setDebounceDelay(byte delay);
     int readConfig();
+    
+    byte setConfigOnce(byte config);
     int readVersion();
+    
+    byte setDebounceDelay(byte delay);
     int readDebounceDelay();
+
+    byte setLEDSPIFrequency(byte frequency);
+    int readLEDSPIFrequency();
+
     bool moreKeysWaiting();
     void sendLEDData();
     void setOneLEDTo(byte led, cRGB color);

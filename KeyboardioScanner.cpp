@@ -75,10 +75,30 @@ int KeyboardioScanner::readVersion() {
     return readRegister(TWI_CMD_VERSION);
 }
 
-// returns -1 on error, otherwise returns the scanner version integer
+// returns -1 on error, otherwise returns the scanner debounce delay
 int KeyboardioScanner::readDebounceDelay() {
     return readRegister(TWI_CMD_DEBOUNCE_DELAY);
 }
+
+
+// returns -1 on error, otherwise returns the LED SPI Frequncy
+int KeyboardioScanner::readLEDSPIFrequency() {
+    return readRegister(TWI_CMD_LED_SPI_FREQUENCY);
+}
+
+// Set the LED SPI Frequency. See wire-protocol-constants.h for 
+// values.
+//
+// returns the Wire.endTransmission code (0 = success)
+// https://www.arduino.cc/en/Reference/WireEndTransmission
+byte KeyboardioScanner::setLEDSPIFrequency(byte frequency) {
+    Wire.beginTransmission(addr);
+    Wire.write(TWI_CMD_LED_SPI_FREQUENCY);
+    Wire.write(frequency);
+    return Wire.endTransmission();
+}
+
+
 
 int KeyboardioScanner::readRegister(int cmd) {
 
