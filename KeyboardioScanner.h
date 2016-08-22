@@ -61,7 +61,6 @@ class KeyboardioScanner {
     void sendLEDData();
     void setOneLEDTo(byte led, cRGB color);
     void setAllLEDsTo(cRGB color);
-    void disableLEDs();
     keydata_t getKeyData();
     bool readKeys();
     LEDData_t ledData;

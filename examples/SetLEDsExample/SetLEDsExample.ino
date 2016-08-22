@@ -5,6 +5,7 @@ KeyboardioScanner controller(0);
 
 cRGB red;
 cRGB blue;
+cRGB off;
 
 
 void setup() {
@@ -13,8 +14,9 @@ void setup() {
   pinMode(7, OUTPUT);
   digitalWrite(7, LOW);
 
-blue.b=255;
-red.r=255;
+  blue.b=255;
+  red.r=255;
+  off.r=off.g=off.b = 0;
   Wire.begin();
 }
 
@@ -23,7 +25,7 @@ void loop() {
   delay(1000);
  controller.setAllLEDsTo(blue);
  delay(1000);
- controller.disableLEDs();
+ controller.setAllLEDsTo(off);
  delay(1000);
 
   controller.setOneLEDTo(0,red);
