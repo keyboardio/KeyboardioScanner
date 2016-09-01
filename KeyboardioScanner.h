@@ -1,24 +1,13 @@
 #pragma once
 
 #include <Arduino.h>
-
+#include "wire-protocol-constants.h"
 
 struct cRGB {
     uint8_t b;
     uint8_t g;
     uint8_t r;
 };
-
-
-#define TWI_CMD_NONE 0x00
-#define TWI_CMD_CFG 0x01
-#define TWI_CMD_LED_DISABLE 0x02
-#define TWI_CMD_VERSION 0x03
-#define TWI_CMD_LED_BASE 0x80
-
-
-#define TWI_REPLY_NONE 0x00
-#define TWI_REPLY_KEYDATA 0x01
 
 #define LED_BANKS 4
 
@@ -56,20 +45,25 @@ class KeyboardioScanner {
   public:
     KeyboardioScanner(byte setAd01);
     ~KeyboardioScanner();
-    byte setConfig(byte config);
-    byte setConfigOnce(byte config);
-    int readConfig();
+    
     int readVersion();
+    
+    byte setKeyscanInterval(byte delay);
+    int readKeyscanInterval();
+
+    byte setLEDSPIFrequency(byte frequency);
+    int readLEDSPIFrequency();
+
     bool moreKeysWaiting();
     void sendLEDData();
-    void disableLEDs();
+    void setOneLEDTo(byte led, cRGB color);
+    void setAllLEDsTo(cRGB color);
     keydata_t getKeyData();
     bool readKeys();
     LEDData_t ledData;
     uint8_t controllerAddress();
 
   private:
-    bool configured = false;
     int addr;
     int ad01;
     keydata_t keyData;
