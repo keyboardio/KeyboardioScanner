@@ -15,30 +15,11 @@ KeyboardioScanner::KeyboardioScanner(byte setAd01) {
     keyReady = false;
 }
 
-// returns 0 on success, otherwise the Wire.endTransmission code
-// https://www.arduino.cc/en/Reference/WireEndTransmission
-byte KeyboardioScanner::setConfigOnce(byte config) {
-    if (!configured) {
-        setConfig(config);
-    } else {
-        return 0;
-    }
-}
-
 // Returns the relative controller addresss. The expected range is 0-3
 uint8_t KeyboardioScanner::controllerAddress() {
     return ad01;
 }
 
-// returns the Wire.endTransmission code (0 = success)
-// https://www.arduino.cc/en/Reference/WireEndTransmission
-byte KeyboardioScanner::setConfig(byte config) {
-    Wire.beginTransmission(addr);
-    Wire.write(TWI_CMD_CFG);
-    Wire.write(config);
-    configured = true;
-    return Wire.endTransmission();
-}
 
 
 // Sets the key debouncing delay. The delay value will
@@ -64,11 +45,6 @@ byte KeyboardioScanner::setDebounceDelay(byte delay) {
 
 
 
-
-// returns -1 on error, otherwise returns the 8 register configuration
-int KeyboardioScanner::readConfig() {
-    return readRegister(TWI_CMD_CFG);
-}
 
 // returns -1 on error, otherwise returns the scanner version integer
 int KeyboardioScanner::readVersion() {
