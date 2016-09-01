@@ -64,7 +64,6 @@ class KeyboardioScanner {
     uint8_t controllerAddress();
 
   private:
-    bool configured = false;
     int addr;
     int ad01;
     keydata_t keyData;
