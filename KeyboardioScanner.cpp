@@ -22,17 +22,20 @@ uint8_t KeyboardioScanner::controllerAddress() {
 
 
 
-// Sets the key debouncing delay. The delay value will
-// be multiplied by 20 and fed into _delay_us() on the 
-// controller.
-// 
-// This gives you a maximum of 5100ms between reads of a
-// given row's keys. We currently do three reads.
+// Sets the keyscan interval. We currently do three reads. 
+// before declaring a key event debounced.
+//
+// Takes an integer value representing a counter.
+//
+// 0 - 0.1-0.25ms
+// 1 - 0.125ms
+// 10 - 0.35ms
+// 25 - 0.8ms
+// 50 - 1.6ms
+// 100 - 3.15ms
+//
 // You should think of this as the _minimum_ debounce time.
-//
-// The delay doesn't take into account time spent reading from
-// I2C or updating LEDs. 
-//
+// LED updates can cause a bit of jitter.
 //
 // returns the Wire.endTransmission code (0 = success)
 // https://www.arduino.cc/en/Reference/WireEndTransmission
