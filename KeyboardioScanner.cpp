@@ -34,14 +34,14 @@ uint8_t KeyboardioScanner::controllerAddress() {
 // 50 - 1.6ms
 // 100 - 3.15ms
 //
-// You should think of this as the _minimum_ debounce time.
+// You should think of this as the _minimum_ keyscan interval.
 // LED updates can cause a bit of jitter.
 //
 // returns the Wire.endTransmission code (0 = success)
 // https://www.arduino.cc/en/Reference/WireEndTransmission
-byte KeyboardioScanner::setDebounceDelay(byte delay) {
+byte KeyboardioScanner::setKeyscanInterval(byte delay) {
     Wire.beginTransmission(addr);
-    Wire.write(TWI_CMD_DEBOUNCE_DELAY);
+    Wire.write(TWI_CMD_KEYSCAN_INTERVAL);
     Wire.write(delay);
     return Wire.endTransmission();
 }
@@ -54,9 +54,9 @@ int KeyboardioScanner::readVersion() {
     return readRegister(TWI_CMD_VERSION);
 }
 
-// returns -1 on error, otherwise returns the scanner debounce delay
-int KeyboardioScanner::readDebounceDelay() {
-    return readRegister(TWI_CMD_DEBOUNCE_DELAY);
+// returns -1 on error, otherwise returns the scanner keyscan interval
+int KeyboardioScanner::readKeyscanInterval() {
+    return readRegister(TWI_CMD_KEYSCAN_INTERVAL);
 }
 
 

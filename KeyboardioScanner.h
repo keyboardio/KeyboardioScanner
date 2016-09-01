@@ -48,8 +48,8 @@ class KeyboardioScanner {
     
     int readVersion();
     
-    byte setDebounceDelay(byte delay);
-    int readDebounceDelay();
+    byte setKeyscanInterval(byte delay);
+    int readKeyscanInterval();
 
     byte setLEDSPIFrequency(byte frequency);
     int readLEDSPIFrequency();
