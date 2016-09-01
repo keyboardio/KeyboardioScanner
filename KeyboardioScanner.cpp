@@ -20,8 +20,6 @@ uint8_t KeyboardioScanner::controllerAddress() {
     return ad01;
 }
 
-
-
 // Sets the keyscan interval. We currently do three reads. 
 // before declaring a key event debounced.
 //
