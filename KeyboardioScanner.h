@@ -45,10 +45,7 @@ class KeyboardioScanner {
   public:
     KeyboardioScanner(byte setAd01);
     ~KeyboardioScanner();
-    byte setConfig(byte config);
-    int readConfig();
     
-    byte setConfigOnce(byte config);
     int readVersion();
     
     byte setDebounceDelay(byte delay);
