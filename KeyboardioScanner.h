@@ -14,10 +14,10 @@ struct cRGB {
 #define LEDS_PER_HAND 32
 #define LED_BYTES_PER_BANK sizeof(cRGB)  * LEDS_PER_HAND/LED_BANKS
 
-typedef union LEDData_t {
+typedef union {
     cRGB leds[LEDS_PER_HAND];
     byte bytes[LED_BANKS][LED_BYTES_PER_BANK];
-};
+} LEDData_t;
 
 
 // Same datastructure as on the other side
