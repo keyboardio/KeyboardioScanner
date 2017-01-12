@@ -2,14 +2,14 @@
 #include <Wire.h>
 #include "KeyboardioScanner.h"
 
-#define IS31IO7326_I2C_ADDR_BASE 0x58
+#define SCANNER_I2C_ADDR_BASE 0x58
 
 
 KeyboardioScanner::~KeyboardioScanner() {}
 
 KeyboardioScanner::KeyboardioScanner(byte setAd01) {
     ad01 = setAd01;
-    addr = IS31IO7326_I2C_ADDR_BASE | ad01;
+    addr = SCANNER_I2C_ADDR_BASE | ad01;
     // keyReady will be true after a read when there's another key event
     // already waiting for us
     keyReady = false;
