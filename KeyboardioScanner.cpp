@@ -1,8 +1,15 @@
 #include <Arduino.h>
-#include <Wire.h>
 #include "KeyboardioScanner.h"
 
+extern "C" {
+  #include "twi.h"
+}
+
+
 #define SCANNER_I2C_ADDR_BASE 0x58
+#define ELEMENTS(arr)  (sizeof(arr) / sizeof((arr)[0]))
+
+uint8_t twi_uninitialized = 1;
 
 
 KeyboardioScanner::~KeyboardioScanner() {}
@@ -13,6 +20,9 @@ KeyboardioScanner::KeyboardioScanner(byte setAd01) {
     // keyReady will be true after a read when there's another key event
     // already waiting for us
     keyReady = false;
+    if (twi_uninitialized--) {
+    	twi_init();
+    }
 }
 
 // Returns the relative controller addresss. The expected range is 0-3
@@ -38,10 +48,8 @@ uint8_t KeyboardioScanner::controllerAddress() {
 // returns the Wire.endTransmission code (0 = success)
 // https://www.arduino.cc/en/Reference/WireEndTransmission
 byte KeyboardioScanner::setKeyscanInterval(byte delay) {
-    Wire.beginTransmission(addr);
-    Wire.write(TWI_CMD_KEYSCAN_INTERVAL);
-    Wire.write(delay);
-    return Wire.endTransmission();
+    uint8_t data[] = {TWI_CMD_KEYSCAN_INTERVAL, delay};
+    uint8_t result = twi_writeTo(addr,data,ELEMENTS(data) ,1,0);
 }
 
 
@@ -69,10 +77,8 @@ int KeyboardioScanner::readLEDSPIFrequency() {
 // returns the Wire.endTransmission code (0 = success)
 // https://www.arduino.cc/en/Reference/WireEndTransmission
 byte KeyboardioScanner::setLEDSPIFrequency(byte frequency) {
-    Wire.beginTransmission(addr);
-    Wire.write(TWI_CMD_LED_SPI_FREQUENCY);
-    Wire.write(frequency);
-    return Wire.endTransmission();
+    uint8_t data[] = {TWI_CMD_LED_SPI_FREQUENCY,frequency};
+    uint8_t result = twi_writeTo(addr,data,ELEMENTS(data) ,1,0);
 }
 
 
@@ -81,16 +87,26 @@ int KeyboardioScanner::readRegister(int cmd) {
 
     byte return_value = 0;
 
-    Wire.beginTransmission(addr);
-    Wire.write(cmd);
-    Wire.endTransmission();
+    uint8_t data[] = {cmd};
+    uint8_t result = twi_writeTo(addr,data,ELEMENTS(data) ,1,0);
+
+
+
     delayMicroseconds(15); // We may be able to drop this in the future
                            // but will need to verify with correctly
                            // sized pull-ups on both the left and right
                            // hands' i2c SDA and SCL lines
-    Wire.requestFrom(addr, 1, true);
-    return_value = Wire.read();
-    return return_value;
+
+    uint8_t rxBuffer[1];
+    
+    // perform blocking read into buffer 
+    uint8_t read = twi_readFrom(addr, rxBuffer, ELEMENTS(rxBuffer), true);
+    if(read>0) {
+    	return rxBuffer[0];
+    } else {
+    	return -1;
+    }
+
 }
 
 
@@ -102,15 +118,16 @@ bool KeyboardioScanner::moreKeysWaiting() {
 
 // gives information on the key that was just pressed or released.
 bool KeyboardioScanner::readKeys() {
-    // read one key state
-    Wire.requestFrom(addr,5,true);
-   
-    uint8_t event_detected = Wire.read();
-    if (event_detected == TWI_REPLY_KEYDATA) {
-        keyData.rows[0] = Wire.read();
-        keyData.rows[1] = Wire.read();
-        keyData.rows[2] = Wire.read();
-        keyData.rows[3] = Wire.read();
+
+	uint8_t rxBuffer[5];
+    
+  // perform blocking read into buffer 
+  uint8_t read = twi_readFrom(addr, rxBuffer, ELEMENTS(rxBuffer), true);
+    if (rxBuffer[0] == TWI_REPLY_KEYDATA) {
+        keyData.rows[0] = rxBuffer[1];
+        keyData.rows[1] = rxBuffer[2];
+        keyData.rows[2] = rxBuffer[3];
+        keyData.rows[3] = rxBuffer[4];
          return true;
         } else {
             return false;
@@ -129,32 +146,25 @@ void KeyboardioScanner::sendLEDData() {
 }
 
 void KeyboardioScanner::sendLEDBank(byte bank) {
-    Wire.beginTransmission(addr);
-    Wire.write(TWI_CMD_LED_BASE+bank);
-    for (uint8_t i=0; i<LED_BYTES_PER_BANK; i++) {
-        Wire.write(ledData.bytes[bank][i]);
-    }
-    Wire.endTransmission();
+    uint8_t data[LED_BYTES_PER_BANK+1];
+     data[0]  = TWI_CMD_LED_BASE+bank;
+	for(int i = 0 ; i < LED_BYTES_PER_BANK;i++) {
+		data[i+1] = ledData.bytes[bank][i];
+	}
+    uint8_t result = twi_writeTo(addr,data,ELEMENTS(data) ,1,0);
 }
 
 
 
 void KeyboardioScanner::setAllLEDsTo( cRGB color) {
-    Wire.beginTransmission(addr);
-    Wire.write(TWI_CMD_LED_SET_ALL_TO);
-    Wire.write(color.b);
-    Wire.write(color.g);
-    Wire.write(color.r);
-    Wire.endTransmission();
+    uint8_t data[] = {TWI_CMD_LED_SET_ALL_TO, color.b,color.g,color.r};
+    uint8_t result = twi_writeTo(addr,data,ELEMENTS(data) ,1,0);
 }
+
 void KeyboardioScanner::setOneLEDTo(byte led, cRGB color) {
-    Wire.beginTransmission(addr);
-    Wire.write(TWI_CMD_LED_SET_ONE_TO);
-    Wire.write(led);
-    Wire.write(color.b);
-    Wire.write(color.g);
-    Wire.write(color.r);
-    Wire.endTransmission();
+    uint8_t data[] = {TWI_CMD_LED_SET_ONE_TO, led, color.b,color.g,color.r};
+    uint8_t result = twi_writeTo(addr,data,ELEMENTS(data) ,1,0);
+
 }
 
 
