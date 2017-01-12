@@ -1,4 +1,3 @@
-#include <Wire.h>
 #include <KeyboardioScanner.h>
 
 KeyboardioScanner controller(0);
@@ -10,7 +9,6 @@ void setup() {
   digitalWrite(7, LOW);
 
   Serial.begin(9600);
-  Wire.begin();
   delay(5000);
   Serial.print("Talking to an ATTiny running scanner firmware version ");
     Serial.print(controller.readVersion());

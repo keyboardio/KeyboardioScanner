@@ -1,4 +1,3 @@
-#include <Wire.h>
 #include <KeyboardioScanner.h>
 
 cRGB black;
@@ -167,7 +166,6 @@ void setup() {
   digitalWrite(7, LOW);
 
   Serial.begin(9600);
-  Wire.begin();
   // TWBR=5;
 }
 

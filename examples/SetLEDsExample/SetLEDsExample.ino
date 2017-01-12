@@ -1,4 +1,3 @@
-#include <Wire.h>
 #include <KeyboardioScanner.h>
 
 KeyboardioScanner controller(0);
@@ -17,7 +16,6 @@ void setup() {
   blue.b=255;
   red.r=255;
   off.r=off.g=off.b = 0;
-  Wire.begin();
 }
 
 void loop() {
