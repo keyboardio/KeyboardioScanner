@@ -50,6 +50,8 @@ uint8_t KeyboardioScanner::controllerAddress() {
 byte KeyboardioScanner::setKeyscanInterval(byte delay) {
     uint8_t data[] = {TWI_CMD_KEYSCAN_INTERVAL, delay};
     uint8_t result = twi_writeTo(addr,data,ELEMENTS(data) ,1,0);
+
+    return result;
 }
 
 
@@ -79,6 +81,8 @@ int KeyboardioScanner::readLEDSPIFrequency() {
 byte KeyboardioScanner::setLEDSPIFrequency(byte frequency) {
     uint8_t data[] = {TWI_CMD_LED_SPI_FREQUENCY,frequency};
     uint8_t result = twi_writeTo(addr,data,ELEMENTS(data) ,1,0);
+
+    return result;
 }
 
 
