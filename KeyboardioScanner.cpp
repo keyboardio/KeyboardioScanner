@@ -50,6 +50,8 @@ uint8_t KeyboardioScanner::controllerAddress() {
 byte KeyboardioScanner::setKeyscanInterval(byte delay) {
     uint8_t data[] = {TWI_CMD_KEYSCAN_INTERVAL, delay};
     uint8_t result = twi_writeTo(addr,data,ELEMENTS(data) ,1,0);
+
+    return result;
 }
 
 
@@ -79,11 +81,13 @@ int KeyboardioScanner::readLEDSPIFrequency() {
 byte KeyboardioScanner::setLEDSPIFrequency(byte frequency) {
     uint8_t data[] = {TWI_CMD_LED_SPI_FREQUENCY,frequency};
     uint8_t result = twi_writeTo(addr,data,ELEMENTS(data) ,1,0);
+
+    return result;
 }
 
 
 
-int KeyboardioScanner::readRegister(int cmd) {
+int KeyboardioScanner::readRegister(uint8_t cmd) {
 
     byte return_value = 0;
 
@@ -148,7 +152,7 @@ void KeyboardioScanner::sendLEDData() {
 void KeyboardioScanner::sendLEDBank(byte bank) {
     uint8_t data[LED_BYTES_PER_BANK+1];
      data[0]  = TWI_CMD_LED_BASE+bank;
-	for(int i = 0 ; i < LED_BYTES_PER_BANK;i++) {
+	for(uint8_t i = 0 ; i < LED_BYTES_PER_BANK;i++) {
 		data[i+1] = ledData.bytes[bank][i];
 	}
     uint8_t result = twi_writeTo(addr,data,ELEMENTS(data) ,1,0);
