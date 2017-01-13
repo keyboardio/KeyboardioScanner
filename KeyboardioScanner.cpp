@@ -87,7 +87,7 @@ byte KeyboardioScanner::setLEDSPIFrequency(byte frequency) {
 
 
 
-int KeyboardioScanner::readRegister(int cmd) {
+int KeyboardioScanner::readRegister(uint8_t cmd) {
 
     byte return_value = 0;
 
