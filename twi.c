@@ -19,6 +19,8 @@
   Modified 2012 by Todd Krein (todd@krein.org) to implement repeated starts
 */
 
+#define TWI_MASTER_ONLY 1
+
 #include <math.h>
 #include <stdlib.h>
 #include <inttypes.h>
@@ -58,7 +60,9 @@ static uint8_t twi_txBuffer[TWI_BUFFER_LENGTH];
 static volatile uint8_t twi_txBufferIndex;
 static volatile uint8_t twi_txBufferLength;
 
+#if !TWI_MASTER_ONLY
 static uint8_t twi_rxBuffer[TWI_BUFFER_LENGTH];
+#endif
 static volatile uint8_t twi_rxBufferIndex;
 
 static volatile uint8_t twi_error;
@@ -482,6 +486,7 @@ ISR(TWI_vect)
       break;
     // TW_MR_ARB_LOST handled by TW_MT_ARB_LOST case
 
+#if !TWI_MASTER_ONLY
     // Slave Receiver
     case TW_SR_SLA_ACK:   // addressed, returned ack
     case TW_SR_GCALL_ACK: // addressed generally, returned ack
@@ -558,6 +563,7 @@ ISR(TWI_vect)
       // leave slave receiver state
       twi_state = TWI_READY;
       break;
+#endif
 
     // All
     case TW_NO_INFO:   // no state information
