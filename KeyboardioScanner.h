@@ -2,12 +2,7 @@
 
 #include <Arduino.h>
 #include "wire-protocol-constants.h"
-
-struct cRGB {
-    uint8_t b;
-    uint8_t g;
-    uint8_t r;
-};
+#include "Kaleidoscope/cRGB.h"
 
 #define LED_BANKS 4
 
@@ -45,9 +40,9 @@ class KeyboardioScanner {
   public:
     KeyboardioScanner(byte setAd01);
     ~KeyboardioScanner();
-    
+
     int readVersion();
-    
+
     byte setKeyscanInterval(byte delay);
     int readKeyscanInterval();
 
@@ -72,4 +67,3 @@ class KeyboardioScanner {
     void sendLEDBank(byte bank);
     int readRegister(uint8_t cmd);
 };
-
