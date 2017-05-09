@@ -45,9 +45,9 @@ class KeyboardioScanner {
   public:
     KeyboardioScanner(byte setAd01);
     ~KeyboardioScanner();
-    
+
     int readVersion();
-    
+
     byte setKeyscanInterval(byte delay);
     int readKeyscanInterval();
 
