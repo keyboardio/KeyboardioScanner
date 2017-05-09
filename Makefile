@@ -16,7 +16,8 @@ VERBOSE := #-verbose
 SKETCH := examples/KeyboardExample/KeyboardExample.ino
 SKETCH_BASENAME = `basename "${SKETCH}"`
 
-smoke: compile size
+EXAMPLES=$(shell find ./examples -type f -name \*.ino )
+EXAMPLES_HEX := $(addsuffix .hex,${EXAMPLES})
 
 astyle:
 		find . -type f -name \*.cpp |xargs -n 1 astyle --style=google
@@ -24,17 +25,18 @@ astyle:
 		find . -type f -name \*.h |xargs -n 1 astyle --style=google
 
 
-compile:
+smoke: ${EXAMPLES_HEX}
+
+${EXAMPLES_HEX}: %.hex: 
 	$(ARDUINO_PATH)/arduino-builder \
 		-hardware $(ARDUINO_PATH)/hardware \
 		-tools $(ARDUINO_TOOLS_PATH) \
 		-tools $(ARDUINO_PATH)/tools-builder  \
 		-fqbn $(FQBN) \
+		-libraries $(ARDUINO_PATH)/libraries \
 		-libraries $(ARDUINO_LOCAL_LIB_PATH) \
 		$(VERBOSE) \
 		-build-path $(BUILD_PATH) \
 		-ide-version $(ARDUINO_IDE_VERSION) \
-		$(SKETCH)
-
-size: compile
-	$(ARDUINO_TOOLS_PATH)/avr/bin/avr-size -C --mcu=$(MCU) $(BUILD_PATH)/$(SKETCH_BASENAME).elf
+		$*
+	$(ARDUINO_TOOLS_PATH)/avr/bin/avr-size -C --mcu=$(MCU) $(BUILD_PATH)/$(shell basename $*).elf
