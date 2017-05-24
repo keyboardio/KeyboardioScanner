@@ -115,8 +115,6 @@ void effect_rainbow_wave_update(int direction) {
     rainbow_wave_hue += (rainbow_wave_steps * direction);
     if (rainbow_wave_hue >= 255)          {
         rainbow_wave_hue %= 255;
-    } else if (rainbow_wave_hue < 0) {
-        rainbow_wave_hue = 255;
     }
     send_led_data();
 
