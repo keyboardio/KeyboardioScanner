@@ -13,9 +13,9 @@ void setup() {
   pinMode(7, OUTPUT);
   digitalWrite(7, LOW);
 
-  blue.b=255;
-  red.r=255;
-  off.r=off.g=off.b = 0;
+  blue.b = 255;
+  red.r = 255;
+  off.r = off.g = off.b = 0;
 }
 
 void loop() {
@@ -26,7 +26,7 @@ void loop() {
   controller.setAllLEDsTo(off);
   delay(1000);
 
-  controller.setOneLEDTo(0,red);
-  controller.setOneLEDTo(31,blue);
+  controller.setOneLEDTo(0, red);
+  controller.setOneLEDTo(31, blue);
   delay(1000);
 }
