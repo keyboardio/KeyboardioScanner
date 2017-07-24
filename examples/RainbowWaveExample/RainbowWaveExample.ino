@@ -12,7 +12,7 @@ KeyboardioScanner controller2(3);
 KeyboardioScanner controller(0);
 
 
-void led_set_crgb_at(int i, cRGB color) {
+void setCrgbAt(int i, cRGB color) {
   if (i < 32) {
     controller.ledData.leds[i] = color;
     //    controller2.ledData.leds[i] = color;
@@ -23,7 +23,7 @@ void led_set_crgb_at(int i, cRGB color) {
   }
 }
 // From http://web.mit.edu/storborg/Public/hsvtorgb.c - talk to Scott about licensing
-void hsv_to_rgb(cRGB *cRGB, uint16_t h, uint16_t s, uint16_t v)  {
+void hsvToRgb(cRGB *cRGB, uint16_t h, uint16_t s, uint16_t v)  {
   /* HSV to RGB conversion function with only integer
      math */
   uint16_t region, fpart, p, q, t;
@@ -86,7 +86,7 @@ void effect_rainbow_update() {
   if (rainbow_hue >= 255)          {
     rainbow_hue %= 255;
   }
-  hsv_to_rgb(&rainbow, rainbow_hue, 255, 10);
+  hsvToRgb(&rainbow, rainbow_hue, 255, 10);
   controller.setAllLEDsTo(rainbow);
 }
 
@@ -102,14 +102,14 @@ void effect_rainbow_wave_update(int direction) {
     if (key_hue >= 255)          {
       key_hue %= 255;
     }
-    hsv_to_rgb(&rainbow, key_hue, 255, 100);
-    led_set_crgb_at(i, rainbow);
+    hsvToRgb(&rainbow, key_hue, 255, 100);
+    setCrgbAt(i, rainbow);
   }
   rainbow_wave_hue += (rainbow_wave_steps * direction);
   if (rainbow_wave_hue >= 255)          {
     rainbow_wave_hue %= 255;
   }
-  send_led_data();
+  sendLedData();
 }
 
 
@@ -129,7 +129,7 @@ void setup() {
   // TWBR=5;
 }
 
-void send_led_data() {
+void sendLedData() {
   controller2.sendLEDData();
   controller.sendLEDData();
   controller2.sendLEDData();
