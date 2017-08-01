@@ -62,8 +62,8 @@ static volatile uint8_t twi_txBufferLength;
 
 #if ENABLE_TWI_SLAVE_MODE
 static uint8_t twi_rxBuffer[TWI_BUFFER_LENGTH];
-#endif
 static volatile uint8_t twi_rxBufferIndex;
+#endif
 
 static volatile uint8_t twi_error;
 
