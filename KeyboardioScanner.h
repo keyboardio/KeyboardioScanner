@@ -3,22 +3,17 @@
 #include <Arduino.h>
 #include "wire-protocol-constants.h"
 
-struct cRGB {
-  uint8_t b;
-  uint8_t g;
-  uint8_t r;
-};
+#include "Kaleidoscope-Hardware.h"
 
 #define LED_BANKS 4
 
 #define LEDS_PER_HAND 32
-#define LED_BYTES_PER_BANK sizeof(cRGB)  * LEDS_PER_HAND/LED_BANKS
+#define LED_BYTES_PER_BANK sizeof(cBGR) * LEDS_PER_HAND/LED_BANKS
 
 typedef union {
-  cRGB leds[LEDS_PER_HAND];
+  cBGR leds[LEDS_PER_HAND];
   byte bytes[LED_BANKS][LED_BYTES_PER_BANK];
 } LEDData_t;
-
 
 // Same datastructure as on the other side
 typedef union {
