@@ -35,9 +35,6 @@ KeyboardioScanner::~KeyboardioScanner() {}
 KeyboardioScanner::KeyboardioScanner(byte setAd01) {
   ad01 = setAd01;
   addr = SCANNER_I2C_ADDR_BASE | ad01;
-  // keyReady will be true after a read when there's another key event
-  // already waiting for us
-  keyReady = false;
   if (twi_uninitialized--) {
     twi_init();
   }
@@ -131,12 +128,6 @@ int KeyboardioScanner::readRegister(uint8_t cmd) {
 
 }
 
-
-// returns the raw key code from the controller, or -1 on failure.
-// returns true of a key is ready to be read
-bool KeyboardioScanner::moreKeysWaiting() {
-  return keyReady;
-}
 
 // gives information on the key that was just pressed or released.
 bool KeyboardioScanner::readKeys() {
