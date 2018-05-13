@@ -9,6 +9,9 @@ struct cRGB {
   uint8_t r;
 };
 
+
+
+
 #define LED_BANKS 4
 
 #define LEDS_PER_HAND 32
@@ -61,6 +64,15 @@ class KeyboardioScanner {
   bool readKeys();
   LEDData_t ledData;
   uint8_t controllerAddress();
+  uint8_t controllerI2CAddress();
+  uint8_t bootloaderReadCrc16(byte *version, uint16_t *crc16, uint16_t offset, uint16_t length);
+  void bootloaderGetVersion ();
+  int bootloaderEraseProgram ();
+  int bootloaderWriteFirmware();
+  int bootloaderVerifyFirmware();
+  int bootloaderUpdateAttiny();
+
+
 
  private:
   int addr;
