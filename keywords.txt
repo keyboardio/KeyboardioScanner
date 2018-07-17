@@ -6,36 +6,36 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-key_t   KEYWORD1
+key_t	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-setConfig       KEYWORD2
-setConfigOnce   KEYWORD2
-readConfig      KEYWORD2
-moreKeysWaiting KEYWORD2
-readKey         KEYWORD2
+setConfig	KEYWORD2
+setConfigOnce	KEYWORD2
+readConfig	KEYWORD2
+moreKeysWaiting	KEYWORD2
+readKey	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
 #######################################
 
-KeyboardioScanner    KEYWORD2
+KeyboardioScanner	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
-AUTO_CLEAR_INT_DISABLED             LITERAL1
-AUTO_CLEAR_INT_5MS                  LITERAL1
-AUTO_CLEAR_INT_10MS                 LITERAL1
-INPUT_PORT_FILTER_ENABLE            LITERAL1
-INPUT_PORT_FILTER_DISABLE           LITERAL1
-LONGPRESS_DETECT_ENABLE             LITERAL1
-LONGPRESS_DETECT_DISABLE            LITERAL1
-LONGPRESS_DELAY_20MS                LITERAL1
-LONGPRESS_DELAY_40MS                LITERAL1
-LONGPRESS_DELAY_1S                  LITERAL1
-LONGPRESS_DELAY_2S                  LITERAL1
+AUTO_CLEAR_INT_DISABLED	LITERAL1
+AUTO_CLEAR_INT_5MS	LITERAL1
+AUTO_CLEAR_INT_10MS	LITERAL1
+INPUT_PORT_FILTER_ENABLE	LITERAL1
+INPUT_PORT_FILTER_DISABLE	LITERAL1
+LONGPRESS_DETECT_ENABLE	LITERAL1
+LONGPRESS_DETECT_DISABLE	LITERAL1
+LONGPRESS_DELAY_20MS	LITERAL1
+LONGPRESS_DELAY_40MS	LITERAL1
+LONGPRESS_DELAY_1S	LITERAL1
+LONGPRESS_DELAY_2S	LITERAL1
