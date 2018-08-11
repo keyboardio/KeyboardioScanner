@@ -20,19 +20,6 @@ typedef union {
 } LEDData_t;
 
 
-// Same datastructure as on the other side
-typedef union {
-  struct {
-    uint8_t row: 2,
-            col: 3,
-            keyState: 1,
-            keyEventsWaiting: 1,
-            eventReported: 1;
-  };
-  uint8_t val;
-} key_t;
-
-
 typedef union {
   uint8_t rows[4];
   uint32_t all;
