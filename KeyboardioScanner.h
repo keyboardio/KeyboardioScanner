@@ -25,11 +25,7 @@
 #include <Arduino.h>
 #include "wire-protocol-constants.h"
 
-struct cRGB {
-  uint8_t b;
-  uint8_t g;
-  uint8_t r;
-};
+#include KALEIDOSCOPE_HARDWARE_SPEC_H
 
 #define LED_BANKS 4
 
@@ -40,7 +36,6 @@ typedef union {
   cRGB leds[LEDS_PER_HAND];
   byte bytes[LED_BANKS][LED_BYTES_PER_BANK];
 } LEDData_t;
-
 
 typedef union {
   uint8_t rows[4];
