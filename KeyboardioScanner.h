@@ -25,11 +25,16 @@
 #include <Arduino.h>
 #include "wire-protocol-constants.h"
 
+// We allow cRGB/CRGB to be defined already when this is included.
+//
+#ifndef CRGB
 struct cRGB {
   uint8_t b;
   uint8_t g;
   uint8_t r;
 };
+#define CRGB(r,g,b) (cRGB){b, g, r}
+#endif
 
 #define LED_BANKS 4
 
