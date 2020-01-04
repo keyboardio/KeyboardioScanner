@@ -1,5 +1,5 @@
 /* KeyboardioScanner
- * Copyright (C) 2015-2018  Keyboard.io, Inc
+ * Copyright (C) 2015-2020  Keyboard.io, Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -76,7 +76,15 @@ class KeyboardioScanner {
   LEDData_t ledData;
   uint8_t controllerAddress();
 
+  void setBrightness(uint8_t brightness) {
+    brightness_adjustment_ = 255 - brightness;
+  }
+  uint8_t getBrightness() {
+    return 255 - brightness_adjustment_;
+  }
+
  private:
+  uint8_t brightness_adjustment_ = 0;
   int addr;
   int ad01;
   keydata_t keyData;
