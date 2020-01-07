@@ -1,5 +1,5 @@
 /* KeyboardioScanner
- * Copyright (C) 2015-2018  Keyboard.io, Inc
+ * Copyright (C) 2015-2020  Keyboard.io, Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -184,7 +184,17 @@ void KeyboardioScanner::sendLEDBank(byte bank) {
   uint8_t data[LED_BYTES_PER_BANK + 1];
   data[0]  = TWI_CMD_LED_BASE + bank;
   for (uint8_t i = 0 ; i < LED_BYTES_PER_BANK; i++) {
-    data[i + 1] = pgm_read_byte(&gamma8[ledData.bytes[bank][i]]);
+    /* While the ATTiny controller does have a global brightness command, it is
+     * limited to 32 levels, and those aren't nicely spread out either. For this
+     * reason, we're doing our own brightness adjustment on this side, because
+     * that results in a considerably smoother curve. */
+    uint8_t c = ledData.bytes[bank][i];
+    if (c > brightness_adjustment_)
+      c -= brightness_adjustment_;
+    else
+      c = 0;
+
+    data[i + 1] = pgm_read_byte(&gamma8[c]);
   }
   uint8_t result = twi_writeTo(addr, data, ELEMENTS(data), 1, 0);
 }
